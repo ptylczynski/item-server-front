@@ -1,0 +1,25 @@
+
+<div >
+  <div class="card border-primary mt-4">
+    <h5 class="card-header">{{item.name}}</h5>
+    <div class="card-body">
+      <table class="w-100">
+        <tr>
+          <td class="text-primary">Description</td>
+          <td class="text-right font-weight-bold">{{item.description}}</td>
+        </tr>
+        <tr>
+          <td class="text-primary">Due date</td>
+          <td class="text-right font-weight-bold">{{item.dueDate | date}}</td>
+        </tr>
+      </table>
+      <div class="d-flex w-100 justify-content-end mt-2">
+        <footer class="card-text text-muted"><small>Added {{item.dateAdded | date}}</small></footer>
+      </div>
+      <div class="btn-group d-flex justify-content-around w-100">
+        <button class="btn-outline-danger btn mr-2">Delete</button>
+        <button class="btn-outline-success btn ml-2">Modify</button>
+      </div>
+    </div>
+  </div>
+</div>
