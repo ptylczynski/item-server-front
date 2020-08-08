@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FoodItem} from '../../common/api/model/foodItem/food-item';
-import {FoodItemService} from '../../common/api/foodItem/food-item.service';
+import {FoodItemService} from '../../common/api/access-service/foodItem/food-item.service';
 
 @Component({
   selector: 'app-home',
