@@ -6,6 +6,8 @@ import {AddressService} from '../../../../../common/api/access-service/address/a
 import {add} from 'ngx-bootstrap/chronos';
 import {FoodItemTypeService} from '../../../../../common/api/access-service/food-item-type/food-item-type.service';
 import {FoodItem} from '../../../../../common/api/model/foodItem/food-item';
+import {FoodItemService} from '../../../../../common/api/access-service/foodItem/food-item.service';
+import {DatePipe, formatDate} from '@angular/common';
 
 @Component({
   selector: 'app-add-item',
@@ -28,13 +30,14 @@ export class AddItemComponent implements OnInit {
     due: ['', Validators.required],
   });
 
-  onSubmit(): void{
-
-  }
-
   constructor(private formBuilder: FormBuilder,
               private addressService: AddressService,
-              private typeService: FoodItemTypeService) { }
+              private typeService: FoodItemTypeService,
+              private foodService: FoodItemService) { }
+
+  onSubmit(): void{
+    this.foodService.post(this.form).subscribe();
+  }
 
   ngOnInit(): void {
     this.addressService.getAll().subscribe(
