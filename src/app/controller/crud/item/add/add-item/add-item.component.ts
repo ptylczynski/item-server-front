@@ -8,53 +8,46 @@ import {FoodItemTypeService} from '../../../../../common/api/access-service/food
 import {FoodItem} from '../../../../../common/api/model/foodItem/food-item';
 import {FoodItemService} from '../../../../../common/api/access-service/foodItem/food-item.service';
 import {DatePipe, formatDate} from '@angular/common';
+import {Router} from '@angular/router';
+import {ItemForm} from '../../../../../common/forms/item/item-form';
+import {ToastService} from '../../../../../common/toast/toast.service';
 
 @Component({
   selector: 'app-add-item',
   templateUrl: './add-item.component.html',
   styleUrls: ['./add-item.component.css']
 })
-export class AddItemComponent implements OnInit {
+export class AddItemComponent extends ItemForm implements OnInit{
 
   public buttonActive = ['btn', 'btn-primary'];
   public buttonInActive = ['btn', 'btn-danger'];
   public submissions = 0;
-  public now = Date.now();
-  public addresses: Address[];
-  public types: FoodType[];
-  public form =  this.formBuilder.group({
-    name: ['', [Validators.required]],
-    description: ['', Validators.required],
-    address: ['', Validators.required],
-    type: ['', Validators.required],
-    due: ['', Validators.required],
-  });
 
-  constructor(private formBuilder: FormBuilder,
-              private addressService: AddressService,
-              private typeService: FoodItemTypeService,
-              private foodService: FoodItemService) { }
-
-  onSubmit(): void{
-    this.foodService.post(this.form).subscribe();
+  constructor(formBuilder: FormBuilder,
+              addressService: AddressService,
+              typeService: FoodItemTypeService,
+              foodService: FoodItemService,
+              toastService: ToastService,
+              private router: Router) {
+    super(formBuilder,
+          addressService,
+          typeService,
+          foodService,
+          toastService);
   }
 
   ngOnInit(): void {
-    this.addressService.getAll().subscribe(
-      data => this.addresses = data._embedded.addressDAOList
-    );
-
-    this.typeService.getAll().subscribe(
-      data => this.types = data._embedded.foodTypeDAOList
-    );
+    this.init();
   }
 
-  getAddressAsString(address: Address): string{
-    if (address.home != null){ return address.street + ' ' + address.building + '/' + address.home + ', ' + address.city + ', ' + address.country}
-    return address.street + ' ' + address.building + ', ' + address.city + ', ' + address.country;
-  }
-
-  getTypeAsString(type: FoodType): string{
-    return type.name + ' - ' + type.description;
+  onSubmit(): void{
+    super.onSubmit();
+    this.foodService.post(this.form).subscribe(
+      // TODO: add progress notification
+      () =>{
+        this.router.navigateByUrl('items');
+        this.toastService.success('Item added');
+      }
+    );
   }
 }

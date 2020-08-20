@@ -4,13 +4,16 @@ import {Address} from '../../model/address/address';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../../environments/environment';
+import {catchError} from 'rxjs/operators';
+import {ToastService} from '../../../toast/toast.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AddressService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private toastService: ToastService) { }
 
   getAll(): Observable<any>{
     return this.http.get<any>(
@@ -20,6 +23,10 @@ export class AddressService {
           Authorization: SecurityService.getAuthorizationHeader()
         }
       }
+    ).pipe(
+      catchError(
+        (err, caught) => this.toastService.resolve(err, caught)
+      )
     );
   }
 }

@@ -18,7 +18,7 @@
       </div>
       <div class="btn-group d-flex justify-content-around w-100">
         <button class="btn-outline-danger btn mr-2" (click)="delete()">Delete</button>
-        <button class="btn-outline-success btn ml-2">Modify</button>
+        <button class="btn-outline-success btn ml-2" [routerLink]="['/item-modify', {id: item.id}]">Modify</button>
       </div>
     </div>
   </div>

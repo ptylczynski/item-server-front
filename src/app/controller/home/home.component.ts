@@ -16,9 +16,6 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.foodItemService.getItem(2).subscribe(
-      data => this.item = {...data}
-    );
   }
 
 }

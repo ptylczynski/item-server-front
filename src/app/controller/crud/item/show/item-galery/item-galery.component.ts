@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {FoodItem} from '../../../../../common/api/model/foodItem/food-item';
 import {FoodItemService} from '../../../../../common/api/access-service/foodItem/food-item.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-item-galery',
@@ -12,7 +13,8 @@ export class ItemGaleryComponent implements OnInit {
 
   public ids: number[];
 
-  constructor(private foodItemService: FoodItemService) { }
+  constructor(private foodItemService: FoodItemService,
+              private toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.foodItemService.getIds().subscribe(
